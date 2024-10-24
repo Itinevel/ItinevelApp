@@ -13,6 +13,11 @@ interface CreateItineraryPageProps {
   onDataChange: (newData: ItineraryData) => void;
   onTotalPriceChange: (dayTotalPrice: number) => void;
 }
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 const CreateItineraryPage: React.FC<CreateItineraryPageProps> = ({ selectedDay, data, onDataChange, onTotalPriceChange  }) => {
   const [locationsState, setLocations] = useState<TripLocation[]>(data?.locations || []);
@@ -350,10 +355,11 @@ const handleTransportDataUpdate = (newTransportDetails: TransportDetail[], notes
     };
     setLocations(newLocationsState);
   
+    
     if (query.length > 2) {
       try {
         // Check if the google object is available
-        if (window.google && google.maps && google.maps.places) {
+        if (window.google && window.google.maps && window.google.maps.places) {
           const autocompleteService = new google.maps.places.AutocompleteService();
           autocompleteService.getPlacePredictions({ input: query }, (predictions, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
