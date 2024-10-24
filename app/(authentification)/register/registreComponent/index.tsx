@@ -28,7 +28,7 @@ const RegisterPageContent= () => {
     useEffect(() => {
       const role = searchParams?.get('role'); 
       if (role) {
-        setRoles(role.split(',')); 
+        setRoles([role.toUpperCase()]); // Ensure proper case and set as single role
       }
     }, [searchParams]);
 
