@@ -13,9 +13,10 @@ interface CreateItineraryPageProps {
   onDataChange: (newData: ItineraryData) => void;
   onTotalPriceChange: (dayTotalPrice: number) => void;
 }
+
 declare global {
   interface Window {
-    google: any; 
+    google: typeof google; 
   }
 }
 
@@ -360,9 +361,9 @@ const handleTransportDataUpdate = (newTransportDetails: TransportDetail[], notes
       try {
         // Check if the google object is available
         if (window.google && window.google.maps && window.google.maps.places) {
-          const autocompleteService = new google.maps.places.AutocompleteService();
+          const autocompleteService = new window.google.maps.places.AutocompleteService();
           autocompleteService.getPlacePredictions({ input: query }, (predictions, status) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
               const newSuggestions = [...suggestionsState];
               newSuggestions[index] = predictions;
               setSuggestions(newSuggestions);
