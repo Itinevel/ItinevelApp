@@ -1,10 +1,10 @@
 import RegisterPageContent from "./registreComponent"
-
+import React, { Suspense } from 'react';
 const RegistreHome = ()=>{
   return(
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
        <RegisterPageContent/>
-    </div>
+    </Suspense>
   )
 }
 export default RegistreHome

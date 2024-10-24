@@ -6,7 +6,6 @@ import axios from 'axios'
 import Popup from "./popup";
 import { FaCheckCircle, FaEnvelope, FaExclamationTriangle, FaLock, FaTimesCircle, FaUser } from "react-icons/fa";
 const RegisterPageContent= () => {
-    const searchParams = useSearchParams(); 
     const [name, setName] = useState('');  
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
