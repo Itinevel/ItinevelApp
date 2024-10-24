@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS, // Add this in your .env file
   },
 });
-export const sendConfirmationEmail = async (email: string, token: string) => {
+const sendConfirmationEmail = async (email: string, token: string) => {
     const confirmationUrl = `http://localhost:3000/confirm-email?token=${token}`; // Adjust to your front-end domain
   
     const mailOptions = {
