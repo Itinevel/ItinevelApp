@@ -464,8 +464,6 @@ const Transport: React.FC<TransportProps> = ({
     </div>
   </div>
 );
-
-      
                         };
                         
                         export default Transport;
