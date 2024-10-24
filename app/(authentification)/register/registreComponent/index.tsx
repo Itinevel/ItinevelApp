@@ -26,11 +26,12 @@ const RegisterPageContent= () => {
   
 
     useEffect(() => {
-      const role = searchParams?.get('role'); 
+      const role = searchParams?.get('role');
       if (role) {
-        setRoles([role.toUpperCase()]); // Ensure proper case and set as single role
+        setRoles(role.split(',').map(role => role.trim().toUpperCase())); // Split by comma, trim, and convert to uppercase
       }
     }, [searchParams]);
+    
 
 
     const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +56,7 @@ const RegisterPageContent= () => {
             nom: name, 
             email: email,
             password: password,
-            roles, 
+            roles:roles.map(role => role.trim()), 
         }
         const response = await axios.post('/api/user/create', requesData)
         if(response.data.status === "success"){

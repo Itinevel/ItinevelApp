@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import nodemailer from 'nodemailer';
 import { v4 as uuidv4 } from 'uuid'; 
 import dotenv from 'dotenv';
+import { Role } from '@prisma/client';
 
 dotenv.config();
 
@@ -43,46 +44,57 @@ const sendConfirmationEmail = async (email: string, token: string) => {
     }
   };
 
-export  async function POST(req:Request){
-    const body = await req.json()
-    const {email, password, nom, roles} = body
-    try{
-        if(!email ){
-            return NextResponse.json({message:"Please enter an email address",status:"Invalid"})
-        }
-        if(!password){
-            return NextResponse.json({message:"Please enter a password",status:"Invalid"})
-        }
-        if(!nom){
-            return NextResponse.json({ message:"Please  enter a username", status:"Invalid"})
-        }
-        const existinguser = await prisma.users.findFirst({
-            where:{email:email}
-        })
-        if( existinguser){
-            return NextResponse.json({message:" Email already exists",status:"Invalid"})
-        }
-        // Generate confirmation token
-        const confirmationToken = uuidv4();
-        const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const userole = roles.includes('SELLER') ? roles.push('SELLER') : roles
-        const newUser = await prisma.users.create({
-            data:{
-                email,
-                password:hashedPassword,
-                nom,
-                confirmationToken,
-                tokenExpiry,
-                emailConfirmed:false,
-                roles:userole
-            }
-        })
-        await sendConfirmationEmail(email, confirmationToken);
-        return NextResponse.json({message:" User created successfully",status:'success'})
+  export async function POST(req: Request) {
+    const body = await req.json();
+    const { email, password, nom, roles } = body;
+  
+    try {
+      if (!email) {
+        return NextResponse.json({ message: "Please enter an email address", status: "Invalid" });
+      }
+      if (!password) {
+        return NextResponse.json({ message: "Please enter a password", status: "Invalid" });
+      }
+      if (!nom) {
+        return NextResponse.json({ message: "Please enter a username", status: "Invalid" });
+      }
+  
+      const existingUser = await prisma.users.findFirst({
+        where: { email: email },
+      });
+      if (existingUser) {
+        return NextResponse.json({ message: "Email already exists", status: "Invalid" });
+      }
+  
+      // Generate confirmation token
+      const confirmationToken = uuidv4();
+      const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Prepare roles as an array of strings
+     // Extract roles from body
+     const rolesArray: Role[] = Array.isArray(roles)
+     ? roles.map((role: string) => role.toUpperCase().trim() as Role)
+     : ['USER'];
 
-    }catch(error){
-        console.log("Error :", error)
-        return new NextResponse("Internal Server Error", {status:500})
+   const newUser = await prisma.users.create({
+     data: {
+       email,
+       password: hashedPassword,
+       nom,
+       confirmationToken,
+       tokenExpiry,
+       emailConfirmed: false,
+       roles: rolesArray, // Ensure roles is an array of Role
+     },
+   });
+
+  
+      await sendConfirmationEmail(email, confirmationToken);
+      return NextResponse.json({ message: "User created successfully", status: 'success' });
+  
+    } catch (error) {
+      console.log("Error :", error);
+      return new NextResponse("Internal Server Error", { status: 500 });
     }
-}
+  }
