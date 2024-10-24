@@ -1,11 +1,12 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios'
 import Popup from "./popup";
 import { FaCheckCircle, FaEnvelope, FaExclamationTriangle, FaLock, FaTimesCircle, FaUser } from "react-icons/fa";
 const RegisterPageContent= () => {
+  const searchParams = useSearchParams(); 
     const [name, setName] = useState('');  
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,6 +22,15 @@ const RegisterPageContent= () => {
     const [roles, setRoles] = useState(['USER']); 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const router = useRouter();
+
+  
+
+    useEffect(() => {
+      const role = searchParams?.get('role'); 
+      if (role) {
+        setRoles(role.split(',')); 
+      }
+    }, [searchParams]);
 
 
     const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
