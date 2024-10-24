@@ -352,17 +352,22 @@ const handleTransportDataUpdate = (newTransportDetails: TransportDetail[], notes
   
     if (query.length > 2) {
       try {
-        const autocompleteService = new google.maps.places.AutocompleteService();
-        autocompleteService.getPlacePredictions({ input: query }, (predictions, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
-            const newSuggestions = [...suggestionsState];
-            newSuggestions[index] = predictions;
-            setSuggestions(newSuggestions);
-            console.log("Updated suggestions:", predictions);
-          } else {
-            console.error('Autocomplete error:', status);
-          }
-        });
+        // Check if the google object is available
+        if (window.google && google.maps && google.maps.places) {
+          const autocompleteService = new google.maps.places.AutocompleteService();
+          autocompleteService.getPlacePredictions({ input: query }, (predictions, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+              const newSuggestions = [...suggestionsState];
+              newSuggestions[index] = predictions;
+              setSuggestions(newSuggestions);
+              console.log("Updated suggestions:", predictions);
+            } else {
+              console.error('Autocomplete error:', status);
+            }
+          });
+        } else {
+          console.error('Google Maps API is not loaded yet.');
+        }
       } catch (error) {
         console.error('Failed to fetch autocomplete suggestions:', error);
       }
