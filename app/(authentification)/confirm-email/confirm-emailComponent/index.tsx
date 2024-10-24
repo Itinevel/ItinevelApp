@@ -8,10 +8,13 @@ const ConfirmEmail = () => {
   const [error, setError] = useState(false);
   const router = useRouter();  // Updated useRouter hook
   
-  const token = new URLSearchParams(window.location.search).get("token"); 
+  
+  
   // Get the token from the URL query parameter
   useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get("token"); 
     if (token) {
+      
         const fetchfunction = async()=>{
             try{
             const res = await axios.post(`/api/confirm-email?token=${token}`, {token: token})
