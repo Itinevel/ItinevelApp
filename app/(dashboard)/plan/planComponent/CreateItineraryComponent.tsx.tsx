@@ -15,7 +15,7 @@ interface CreateItineraryPageProps {
 }
 declare global {
   interface Window {
-    google: any;
+    google: typeof google; 
   }
 }
 
