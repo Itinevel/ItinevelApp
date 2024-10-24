@@ -16,9 +16,10 @@ interface CreateItineraryPageProps {
 
 declare global {
   interface Window {
-    google: any; 
+    google: typeof google;
   }
 }
+
 
 const CreateItineraryPage: React.FC<CreateItineraryPageProps> = ({ selectedDay, data, onDataChange, onTotalPriceChange  }) => {
   const [locationsState, setLocations] = useState<TripLocation[]>(data?.locations || []);
@@ -356,22 +357,24 @@ const handleTransportDataUpdate = (newTransportDetails: TransportDetail[], notes
     };
     setLocations(newLocationsState);
   
-    
     if (query.length > 2) {
       try {
         // Check if the google object is available
         if (window.google && window.google.maps && window.google.maps.places) {
           const autocompleteService = new window.google.maps.places.AutocompleteService();
-          autocompleteService.getPlacePredictions({ input: query }, (predictions: google.maps.places.AutocompletePrediction[] | null, status: google.maps.places.PlacesServiceStatus) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
-              const newSuggestions = [...suggestionsState];
-              newSuggestions[index] = predictions;
-              setSuggestions(newSuggestions);
-              console.log("Updated suggestions:", predictions);
-            } else {
-              console.error('Autocomplete error:', status);
+          autocompleteService.getPlacePredictions(
+            { input: query },
+            (predictions: google.maps.places.AutocompletePrediction[] | null, status: google.maps.places.PlacesServiceStatus) => {
+              if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
+                const newSuggestions = [...suggestionsState];
+                newSuggestions[index] = predictions;
+                setSuggestions(newSuggestions);
+                console.log("Updated suggestions:", predictions);
+              } else {
+                console.error('Autocomplete error:', status);
+              }
             }
-          });
+          );
         } else {
           console.error('Google Maps API is not loaded yet.');
         }
