@@ -1,12 +1,9 @@
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+
+import {redirect} from 'next/navigation';
 
 const HomePage = ()=>{
-    const router = useRouter();
-
-    useEffect(() => {
-      router.push('/home');
-    }, [router]);
+   
+redirect('/home')
   
-  };
+ };
 export default HomePage
