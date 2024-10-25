@@ -75,7 +75,7 @@ const MarketCardsComponent: React.FC<MarketCardsComponentProps> = ({
               {/* Countries */}
               <div className='flex  space-x-6'>
               <div className="flex items-center mt-2">
-                <FaGlobe className="text-gray-500 mr-2" />
+                <FaGlobe className="text-gray-500 mr-2 lg:h-5 lg:w-5" />
                 <p className="text-xs lg:text-sm text-gray-500 truncate">
                   Countries: <span className="underline">
                     {Array.isArray(plan.selectedCountries) && plan.selectedCountries.length > 0 
@@ -94,8 +94,8 @@ const MarketCardsComponent: React.FC<MarketCardsComponentProps> = ({
               </div>
 
               {/* Description */}
-              <div className="flex items-center mt-3">
-  <FaInfoCircle className="text-gray-500 w-36 lg:h-12 lg:w-20 mr-2 -mt-4" />
+              <div className="flex items-center mt-3 space-x-2">
+  <FaInfoCircle className="text-gray-500 w-36 lg:h-5 lg:w-5 " />
   <p className="text-gray-600 text-sm lg:text-base line-clamp-2">
     {plan.description}
   </p>

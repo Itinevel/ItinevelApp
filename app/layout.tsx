@@ -17,7 +17,10 @@ export default function RootLayout({ children,}: Readonly<{ children: React.Reac
  
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en"  suppressHydrationWarning>
+      <head>
+        <meta name="robots" content="=noindex,nofollow"/>
+      </head>
       <SessionProvider>
       <body
       className={inter.className}
