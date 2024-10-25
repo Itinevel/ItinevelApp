@@ -44,9 +44,9 @@ const MarketCardsComponent: React.FC<MarketCardsComponentProps> = ({
   return (
     <div className="space-y-2 font-sans overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-blue-500 scrollbar-track-gray-200   p-4"> 
       {/* The max-h adjusts the height to allow scrolling */}
-      {sortedPlans.map((plan) => (
+      {sortedPlans.map((plan, index) => (
         <div
-          key={plan.id}
+          key={index}
           className="bg-white shadow-lg rounded-lg flex flex-col lg:flex-row w-full mx-auto relative overflow-hidden"
         >
           {/* Image Section */}

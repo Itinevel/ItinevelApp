@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation'; // Use next/navigation hooks
-import CreatePlan from '../planComponent/CreatePlanComponent'; // Adjust the path if needed
+import CreatePlan from '../planComponent/CreatePlanComponent';// Adjust the path if needed
 import { Plan } from '@/interfaces/Itinerary'; // Import your Plan type
+import prisma from '@/app/_lib/db';
 
 const EditPlanPage: React.FC = () => {
   const [plan, setPlan] = useState<Plan | null>(null);
@@ -12,10 +13,11 @@ const EditPlanPage: React.FC = () => {
 
   const params = useParams(); // Get params from the route
   const pathname = usePathname(); // Optionally use pathname if needed for logging or additional logic
+  
+
 
   useEffect(() => {
     const planId = params?.planId; // Destructure planId from params
-
     if (planId) {
       const fetchPlanById = async () => {
         try {

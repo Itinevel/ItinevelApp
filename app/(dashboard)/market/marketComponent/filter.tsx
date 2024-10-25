@@ -40,7 +40,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({ plans, onFilterChange
   const filterPlans = useCallback(() => {
     const filteredPlans = plans.filter(plan => {
       const matchesSearch =
-        (plan.name && plan.name.toLowerCase().includes(searchQuery)) ||
+        (plan.name && plan.name.toLowerCase().includes(searchQuery)) || 
         (plan.description && plan.description.toLowerCase().includes(searchQuery));
   
       const lowerCaseSelectedCountries = selectedCountries.map(country => country.toLowerCase());
@@ -396,18 +396,18 @@ console.log(`Plan "${plan.name}" matches: ${matchesCountries}`);
 
         {countries
           .filter(country => country.name.toLowerCase().includes(countrySearchQuery))
-          .map(({ code, name }) => (
-            <div key={code} className="flex items-center">
+          .map((country , index) => (
+            <div key={country.code} className="flex items-center">
               <input
                 type="checkbox"
-                id={code}
-                value={code}
-                checked={selectedCountries.includes(name)}
+                id={country.code}
+                value={country.code}
+                checked={selectedCountries.includes(country.name)}
                 onChange={handleCountryChange}
                 className="mr-2"
               />
-              <label htmlFor={code} className=" text-sm text-black">
-                {name}
+              <label htmlFor={country.code} className=" text-sm text-black">
+                {country.name}
               </label>
             </div>
           ))}

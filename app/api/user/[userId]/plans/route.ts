@@ -12,7 +12,7 @@ export async function GET(req: Request, { params }: { params: { userId: string }
 
     // If no plans are found, return an empty response
     if (!plans || plans.length === 0) {
-      return NextResponse.json({}, { status: 404 });
+      return NextResponse.json([]);
     }
 
     // Return the fetched plans

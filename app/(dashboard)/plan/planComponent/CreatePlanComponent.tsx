@@ -13,6 +13,9 @@ import { storage } from '@/config/firebaseConfig';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
+interface Props {
+  initialPlan?: InitialPlan;
+}
 
 const CreatePlan = ({ initialPlan }: any) => {
   const { data: session, status } = useSession()
@@ -89,27 +92,34 @@ const CreatePlan = ({ initialPlan }: any) => {
       return;
     }
 
+
     const fetchUserPlans = async () => {
       try {
         const response = await fetch(`/api/user/${session.user.id}/plans`);
         if (!response.ok) {
-          throw new Error('Failed to fetch user plans');
+          console.log("No plan found, creating a new plan");
         }
-        const plans = await response.json();
-        setUserPlans(plans);
-        console.log('Plans fetched', plans);
 
-        if (plans.length > 0) {
-          // If user has plans, redirect to the first plan's edit page
-          router.push(`/plan/${plans[0].id}`);
+        const data = await response.json();
+        if (data.plans) {
+        setUserPlans(data.plans);
+        router.push(`/plan/${data.plans[0].id}`);
+        } else {
+        setUserPlans([]);
         }
+        console.log('Plans fetched', data.plans);
+
+      
       } catch (error) {
         console.error('Error fetching user plans:', error);
       } finally {
         setLoading(false);
       }
     };
+
+    
     fetchUserPlans();
+    
   }, [isLoggedIn, isSeller, userId, router, status]);
 
   useEffect(() => {

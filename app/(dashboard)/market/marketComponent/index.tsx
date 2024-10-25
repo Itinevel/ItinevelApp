@@ -5,7 +5,7 @@ import FilterComponent from "./filter";
 import MarketCardsComponent from "./cards";
 
 const MarketContent = () => {
-    const [sortOption, setSortOption] = useState<string>('name');
+  const [sortOption, setSortOption] = useState<string>('name');
   const [isAscending, setIsAscending] = useState<boolean>(true);
   const [plans, setPlans] = useState<any[]>([]);
   const [filteredPlans, setFilteredPlans] = useState<any[]>([]);
