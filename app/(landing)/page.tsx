@@ -1,8 +1,12 @@
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 const HomePage = ()=>{
-    return(
-        <div>
-            Hello | this is the landing layout (No protectedt)
-        </div>
-    )
-}
+    const router = useRouter();
+
+    useEffect(() => {
+      router.push('/dashboard/home');
+    }, [router]);
+  
+  };
 export default HomePage
