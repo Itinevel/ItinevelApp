@@ -5,7 +5,7 @@ const HomePage = ()=>{
     const router = useRouter();
 
     useEffect(() => {
-      router.push('/dashboard/home');
+      router.push('/home');
     }, [router]);
   
   };
